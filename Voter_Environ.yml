@@ -1,0 +1,5 @@
+name: TWINS
+channels:
+  - defaults
+prefix: /home/caleb/anaconda3/envs/TWINS
+
