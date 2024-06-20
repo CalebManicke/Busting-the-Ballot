@@ -339,6 +339,7 @@ def GetTWINS(twins_type):
 
 def GetTWINSCleanTrainAcc():
     # Load dataloaders
+    import Utilities.VoterLab_Classifier_Functions as voterlab
     colorBalBubbleTrain, colorBubbleVal = voterlab.ReturnVoterLabDataLoaders(imgSize = (3, 40, 50), loaderCreated = True, batchSize = 64, loaderType = 'BalBubbles')
     colorBalFullTrain, colorFullVal = voterlab.ReturnVoterLabDataLoaders(imgSize = (3, 40, 50), loaderCreated = True, batchSize = 64, loaderType = 'BalCombined')
     greyBalBubbleTrain, greyBubbleVal = voterlab.ReturnVoterLabDataLoaders(imgSize = (1, 40, 50), loaderCreated = True, batchSize = 64, loaderType = 'BalBubbles')
