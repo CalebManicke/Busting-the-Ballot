@@ -24,9 +24,9 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  "//home/caleb/VoterWork//Models//Trained_RGB_VoterLab_Models//"
+saveDirRGB =  os.getcwd() + "//Trained_RGB_VoterLab_Models//"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = "//home/caleb/VoterWork//Models//Trained_Grayscale_VoterLab_Models//"
+saveDirGrayscale = os.getcwd() + "//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
