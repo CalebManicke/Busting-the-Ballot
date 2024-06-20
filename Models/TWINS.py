@@ -289,7 +289,7 @@ def ReturnTWINS(args, twins_type):
             if not os.path.exists(args.model):
                 os.mkdir(args.model)
 
-    args.resume = "/workspace/caleb/VoterLab/TWINS/alt_gvt_base//" + name + "//checkpoint_best.pth"
+    args.resume = os.getcwd() + "/alt_gvt_base//" + name + "//checkpoint_best.pth"
     
     model.reset_classifier(2, global_pool='')
     #args.resume = False
