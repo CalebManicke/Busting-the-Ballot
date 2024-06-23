@@ -45,13 +45,6 @@ def ReturnOrganizedScannedDataLoader(folderLocation, grayscale, batchSize):
             if "__" + str(currentBatch) + "th Batch " + str(k) + "th Example__Non-Vote.png" in valImages:
                 loadTitle = "__" + str(currentBatch) + "th Batch " + str(k) + "th Example__Non-Vote.png"
                 yDataVal[indexer] = 1
-                
-            if str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Vote.png" in valImages:
-                loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Vote.png"
-                yDataVal[indexer] = 0
-            if str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Non-Vote.png" in valImages:
-                loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Non-Vote.png"
-                yDataVal[indexer] = 1
 
             if str(currentBatch) + "th Batch " + str(k) + "th Example_0.png" in valImages:
                 loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example_0.png"
@@ -59,7 +52,15 @@ def ReturnOrganizedScannedDataLoader(folderLocation, grayscale, batchSize):
             if str(currentBatch) + "th Batch " + str(k) + "th Example_1.png" in valImages:
                 loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example_1.png"
                 yDataVal[indexer] = 1
-                
+
+            # Cases where misclassification labels are used...
+            if str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Vote.png" in valImages:
+                loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Vote.png"
+                yDataVal[indexer] = 0
+            if str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Non-Vote.png" in valImages:
+                loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example__Correct_Non-Vote.png"
+                yDataVal[indexer] = 1
+
             if str(currentBatch) + "th Batch " + str(k) + "th Example__Misclassified_Vote.png" in valImages:
                 loadTitle = str(currentBatch) + "th Batch " + str(k) + "th Example__Misclassified_Vote.png"
                 yDataVal[indexer] = 0
@@ -84,3 +85,9 @@ def ReturnOrganizedScannedDataLoader(folderLocation, grayscale, batchSize):
     if grayscale: valLoader = voterlab.ConvertToGreyScale(dataLoader = valLoader, imgSize = (1, 40, 50), batchSize = batchSize)
     return valLoader
 
+# Example below...
+if __name__ == '__main__':
+    folderLocation = os.getcwd() + '/Bubble_Extracted'
+    grayscale = True    # Always true if these bubbles were printed...
+    batchSize = 64
+    valLoader = ReturnOrganizedScannedDataLoader(folderLocation, grayscale, batchSize)
