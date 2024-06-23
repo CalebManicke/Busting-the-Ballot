@@ -4,7 +4,7 @@ import re
 import torch
 
 
-''' main(): Given a directory of extracted bubbles, creates another directory of said bubbles pasted on pages 
+''' Given a directory of extracted bubbles, creates another directory of said bubbles pasted on pages 
 
 1000 bubbles will produce 11 pages, first 10 pages have 96 bubbles each
 
@@ -13,8 +13,10 @@ Args:
     bubble_directory: Base directory for extracted bubbles
     misclassificationLabels: Boolean for extrated bubble title, set to True if contains __(Correct|Misclassified)
     saveDir: Directory to save pages
-'''
 
+Note: Only toggle misclassificationLabels = True if bubble_directory was created using DisplayImgs() in Utilities.VoterLab_Classifier_Functions.py with wrongLocation provided
+'''
+misclassificationLabels = False
 
 # Constants for sheet layout
 dpi = 200
@@ -126,3 +128,12 @@ def main(fileName, bubble_directory, misclassificationLabels, saveDir):
     print("Num labels:" + str(len(labels)))
     # Save labels in .torch file
     torch.save(labels, os.path.join(saveDir, fileName + '.torch'))
+
+
+# Example below...
+if __name__ == '__main__':
+    fileName = 'Bubbles'
+    bubble_directory = os.getcwd() + '/Bubble_Dir'
+    saveDir = os.getcwd() + '/Bubble_Pages'
+    os.makedirs(saveDir, exist_ok=True)
+    main(fileName, bubble_directory, False, saveDir)
