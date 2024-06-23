@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import PIL
 
 
-''' Given a directory of scanned pages, register these pages
+''' Register and align a scanned page using its pre-print version
 
-Note: Use align_and_save_image if scanned images are .png format, else use align_tiff_and_save_image
+Note: Use align_and_save_image() if scanned images are .png format, else use align_tiff_and_save_image()
 
 Args:
     input_image_path: Path for scanned page
@@ -151,123 +151,10 @@ def align_tiff_and_save_image(input_image_path, reference_image_path, output_dir
 
     print(f"Aligned image saved: {aligned_image_path}")
 
-'''
-num_pages = 6
 
-for i in range(1,num_pages+1):
-    # Specify the input PNG image path, reference image path, and output directory
-    input_image_path = f"/home/caleb/VoterWork/ImageProcessing/PositiveGradient_Results/ResNet20_PGD_No_Bubbles/ResNet20_PGD_{i}.png"
-    reference_image_path = f"/home/caleb/VoterWork/ImageProcessing/0.062_Adv_Denoiser_Embedded_PositiveGradient_Pages/0.062_Adversarial_BalCombined_ResNet20_PGD_Images_No_Bubbles/output_sheet_0{i}.png"
-    output_dir = "/home/caleb/VoterWork/ImageProcessing/PositiveGradient_Registered_Results/Validation_SVM_Bubbles"
-
-    # Create the output directory if it doesn't exist
-    print(input_image_path)
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Align and save the input image
-    align_and_save_image(input_image_path, reference_image_path, output_dir)
-'''
-
+# Example below...
 if __name__ == '__main__':
-
-    '''
-    numPages = 11
-    attackNames = ['FGSM']  #'FGSM', 'PGD', 
-    epsilonList = [0.0155, 0.031, 0.062, 0.124, 0.248]
-    #convertRange = {0.0155:4, 0.031:8, 0.062:16, 0.124:32, 0.248:64}
-    modelNames = ['SVM']
-    #modelNames = ['TWINS']
-    baseDir = "/workspace/caleb/VoterLab/ImageProcessing/Denoiser_Embedded_PostPrint_Variable_Epsilon_SVM" #Denoiser_Embedded_Varying_Epsilon_APGD"
-    inputPaths = []
-    outputPathBaseDir = "/workspace/caleb/VoterLab/ImageProcessing/Denoiser_Embedded_PostPrint_Variable_Epsilon_SVM_REGISTERED" #Denoiser_Embedded_Varying_Epsilon_APGD_REGISTERED"
-    outputPaths = []
-    for modelName in modelNames:
-        #print(baseDir + "/" + modelName + "_Bubbles")
-        #inputPaths.append(baseDir + "/" + modelName + "_Non_Denoiser_Embedded/" + modelName + "_Validation")
-        #outputPaths.append(outputPathBaseDir + "/" + modelName + "_Validation")
-        for epsilon in epsilonList:
-            if modelName == 'SVM':
-                #print(convertRange[epsilon])
-                inputPaths.append(baseDir + "/" + modelName + "_FGSM_" + str(epsilon))
-                outputPaths.append(outputPathBaseDir + "/" + modelName + "_FGSM_" + str(epsilon))
-            else:
-                for attackName in attackNames: # modelName + "_" + 
-                    inputPaths.append(baseDir + "/" + modelName + "_" + attackName + "_" + str(epsilon))
-                    outputPaths.append(outputPathBaseDir + "/" + modelName + "_" + attackName + "_" + str(epsilon))
-
-    referencePaths =  []
-    baseDir = "/workspace/caleb/VoterLab/ImageProcessing/Denoiser_Embedded_SVM_Variable_Epsilon_FGSM_PrePrint_Pages" #Denoiser_Embedded_Variable_Epsilon_APGD_PrePrint_Pages"
-    for modelName in modelNames:
-        #referencePaths.append(baseDir + "/" + modelName + "_Validation")
-        for epsilon in epsilonList: 
-            if modelName == 'SVM':
-                referencePaths.append(baseDir + "/" + modelName + "_FGSM_" + str(epsilon))
-            else:
-                
-                if modelName == 'TWINS': 
-                    referencePaths.append("/workspace/caleb/VoterLab/TWINS/All_Attacks_TWINS_PrePrint_Pages"  + "/" + modelName + "_FGSM_" + str(convertRange[epsilon]))
-                else:
-                
-                for attackName in attackNames:
-                    referencePaths.append(baseDir + "/" + modelName + "_" + attackName + "_" + str(epsilon))
-    
-    #print(inputPaths)
-    for i in range(len(inputPaths)):
-        print("On " + str(i) + "th directory...")
-        input_image_path = inputPaths[i]
-        reference_image_path = referencePaths[i]
-        output_dir = outputPaths[i]
-        #referenceMethodUse = referenceMethod[i]
-
-        for j in range(1, numPages + 1): 
-            input_image_path_used = input_image_path + "/output_sheet_" + ("0" if j < 10 else "") + str(j) + ".png"
-            reference_image_path_used = reference_image_path + "/output_sheet_" + ("0" if j < 10 else "") + str(j) + ".png"
-            print(input_image_path_used)
-            print(reference_image_path_used)
-
-            # Create the output directory if it doesn't exist
-            os.makedirs(output_dir, exist_ok=True)
-
-            # Align and save the input image
-            align_and_save_image(input_image_path_used, reference_image_path_used, output_dir)
-    '''
-
-    '''
-    numPages = 105
-    baseDir = os.getcwd() + "/Denoiser_Training_Examples/Post_Print_Denoiser_Training_Pages" 
-    outputPathBaseDir = os.getcwd() + "/Denoiser_Training_Examples/Pre_Print_Denoiser_Training_Pages" 
-    output_dir = os.getcwd() + '/Denoiser_Training_Examples/Post_Print_Denoiser_Training_Pages_Registered'
-    # Create the output directory if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Align and save the input image
-    for pageNum in range(1, numPages + 1):
-        input_image_path_used = baseDir + '/output_sheet_' + str(pageNum).zfill(2) + '.png'
-        reference_image_path_used = outputPathBaseDir + '/output_sheet_' + str(pageNum).zfill(3) + '.png'
-        print(input_image_path_used)
-        #print(reference_image_path_used)
-        align_and_save_image(input_image_path_used, reference_image_path_used, output_dir)
-    '''
-
-    # Open the files in read mode
-    for model in ['TWINS-B', 'TWINS-C']: # ['SVM-B', 'SVM-C', 'SimpleCNN-B', 'SimpleCNN-C', 'ResNet-20-B', 'ResNet-20-C']:
-        print_order = open(os.getcwd() + '//TWINS40x50//' + model + '_print_order', "r")
-        print_order = print_order.read()
-        print_order = print_order.split("\n")
-
-        input_index = 0
-        for next_print in print_order:
-            #print_title = next_print[6:]
-            eps = next_print[8:15]
-
-            output_dir = os.getcwd() + '//PostPrint_REGISTERED_Scans//' + model + '//' + eps
-            print(output_dir)
-            os.makedirs(output_dir, exist_ok=True)
-
-            reference_path = os.getcwd() + '/TWINS40x50/PrePrint_Bubble_Sheets/' + model + '/' + next_print[8:]
-            print(reference_path)
-            input_path = os.getcwd() + '/TWINS40x50/' + model + '_PostPrint/bubbles-' + str(input_index) + '.tiff'
-            print(input_path)
-
-            align_tiff_and_save_image(input_path, reference_path, output_dir)
-            input_index += 1
+    input_image_path = os.getcwd() + '/Bubble_Pages_Scanned/output_sheet_001.png'
+    reference_image_path = os.getcwd() + '/Bubble_Pages/output_sheet_001.png'
+    output_dir = os.getcwd() + '/Bubble_Pages_Registered'
+    align_and_save_image(input_image_path, reference_image_path, output_dir)
