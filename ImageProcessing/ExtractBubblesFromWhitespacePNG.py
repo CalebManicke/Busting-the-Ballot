@@ -78,95 +78,23 @@ def ExtractBubbles(output_sheet_path, num_pages, Labels_array, extracted_bubbles
             x = MARGIN
             y += BUBBLE_HEIGHT + SPACING
 
-        '''
-        labelIndex = 0
-        for row in range(num_rows):
-            for col in range(num_columns):
-                bubble_box = (x, y, x + BUBBLE_WIDTH, y + BUBBLE_HEIGHT)
-                bubble = output_sheet.crop(bubble_box)
-
-                # Save the extracted bubble
-                if (labelIndex < numBubbles):
-                    Label = Labels_array[labelIndex]
-                    batch_index = (existing_bubbles + row * num_columns + col) // BATCH_SIZE
-                    example_index = (existing_bubbles + row * num_columns + col) % BATCH_SIZE
-                    bubble_filename = str(batch_index) + "th Batch " + str(example_index) + "th Example_" + str(Label) + ".png"
-                    #bubble_filename = f"{batch_index}th Batch {example_index}th Example_{Label}.png"
-                    #if (batch_index <= 15) and (example_index <= 39):
-                    bubble_path = os.path.join(extracted_bubbles_directory, bubble_filename)
-                    bubble.save(bubble_path)
-
-                    #y += BUBBLE_HEIGHT + SPACING
-                    x += BUBBLE_WIDTH + SPACING
-                    #print(labelIndex)
-                    labelIndex+=1
-
-            # Move to the next column
-            #y = MARGIN + SPACING
-            #x += BUBBLE_WIDTH + SPACING
-            
-            # Move to the next row
-            x = MARGIN
-            y += BUBBLE_HEIGHT + SPACING
-            '''
-
         print(f"Individual bubbles have been extracted and saved in the {output_sheet_path} directory.")
 
+
+# Example below...
 if __name__ == '__main__':
-    '''
-    referencePaths =  []
-    labels = []
-    savePaths = []
-    #modelNames = ['SVM', 'SimpleCNN', 'ResNet20', 'DenseNet']
-    modelNames = ['TWINS']  # 'SimpleCNN', 'ResNet20', 'DenseNet'] #, 
-    attackNames = ['APGD']
-    epsilonList = [0.0155, 0.031, 0.062, 0.124, 0.248]
-    baseDir = "/workspace/caleb/VoterLab/TWINS/Denoiser_Embedded_TWINS_Variable_Epsilon_APGD_PostPrint_Pages_REGISTERED" #Denoiser_Embedded_Varying_Epsilon_APGD_REGISTERED"
-    outputPath = "/workspace/caleb/VoterLab/TWINS/Denoiser_Embedded_TWINS_Variable_Epsilon_APGD_PostPrint_Bubbles" #Denoiser_Embedded_Varying_Epsilon_APGD_PostPrint_Bubbles"
-    labelDir = "/workspace/caleb/VoterLab/TWINS/Denoiser_Embedded_Variable_Epsilon_APGD_TWINS_PrePrint_Pages" #Denoiser_Embedded_Variable_Epsilon_APGD_PrePrint_Pages"
-    '''
+    output_dir = os.getcwd() + '/Bubble_Pages_Registered'
+    os.makedirs(output_dir, exist_ok=True)
+    num_pages = 10 
+    Labels_array = torch.load(os.getcwd() + '/Bubble_Pages/Bubble.torch')
+    extracted_bubbles_directory = os.getcwd() + '/Bubbles_Extracted'
+    os.makedirs(output_dir, exist_ok=True)
+    numBubbles = 96 * 10
 
-    '''
-    for modelName in modelNames:
-        
-        fileName = modelName + "_Validation"
-        savePaths.append(outputPath + "/" + fileName)
-        referencePaths.append(baseDir + "/" + modelName + "_Validation")
-        checkpointLocation = labelDir + "/" + modelName +"_Validation/" + modelName + "_Validation.torch"
-        labelArray = torch.load(checkpointLocation, map_location = torch.device("cpu"))
-        #print(modelName + " Validation Labels: " + str(labelArray))
-        labels.append(torch.load(checkpointLocation, map_location = torch.device("cpu")))
-        
-        for epsilon in epsilonList: 
-            if modelName == 'SVM':
-                fileName = modelName + "_FGSM_" + str(epsilon)
-                savePaths.append(outputPath + "/" + fileName)
-                referencePaths.append(baseDir + "/" + modelName + "_FGSM_" + str(epsilon))
-                checkpointLocation = labelDir + "/" + modelName +"_FGSM_" + str(epsilon) + "/" + modelName + "_FGSM_" + str(epsilon) + "_Results.torch"
-                labels.append(torch.load(checkpointLocation, map_location = torch.device("cpu")))
-            else:
-                for attackName in attackNames:
-                    fileName = modelName + "_" + attackName + "_" + str(epsilon)
-                    savePaths.append(outputPath + "/" + fileName)
-                    referencePaths.append(baseDir + "/" + fileName)
-                    checkpointLocation = labelDir + "/" + modelName + "_" + attackName + "_" + str(epsilon) + "/" + fileName + "_Results.torch"
-                    labels.append(torch.load(checkpointLocation, map_location = torch.device("cpu")))
-    
-    for i in range(len(referencePaths)):
-        ExtractBubbles(output_sheet_path = referencePaths[i], num_pages = 11, Labels_array = labels[i], extracted_bubbles_directory = savePaths[i], numBubbles = 1000)
-    '''
-
-    '''
-    referencePath = os.getcwd() + '//Denoiser_Training_Examples//Post_Print_Denoiser_Training_Pages_Registered'
-    checkpointLocation = os.getcwd() + '//Denoiser_Training_Examples//Pre_Print_Denoiser_Training_Pages//Denoiser_Training_Examples.torch'
-    labels = torch.load(checkpointLocation, map_location = torch.device("cpu"))
-    savePath = os.getcwd() + '//Denoiser_Training_Examples//Post_Print_Denoiser_Training_Bubbles'
-    ExtractBubbles(output_sheet_path = referencePath, num_pages = 105, Labels_array = labels, extracted_bubbles_directory = savePath, numBubbles = len(labels))
-    '''
-
-    for model in ['TWINS-B', 'TWINS-C']: # ['SVM-B', 'SVM-C', 'SimpleCNN-B', 'SimpleCNN-C', 'ResNet-20-B', 'ResNet-20-C']:
-        for eps in ['0.01568', '0.03137', '0.06274', '0.12549']:
-            reference_path = os.getcwd() + '//PostPrint_REGISTERED_Scans//' + model + '//' + eps 
-            labels = torch.load(os.getcwd() + '//TWINS40x50//PrePrint_Bubble_Sheets//' + model + '//' + eps + '//' + model + '.torch', map_location = torch.device("cpu"))
-            save_path = os.getcwd() + '//TWINS40x50//PostPrint_Bubbles//' + model + '//' + eps 
-            ExtractBubbles(output_sheet_path = reference_path, num_pages = 11, Labels_array = labels, extracted_bubbles_directory = save_path, numBubbles = 1000)
+    ExtractBubbles(
+        output_sheet_path = output_dir
+        num_pages = num_pages,
+        Labels_array = Labels_array,
+        extracted_bubbles_directory = extracted_bubbles_directory,
+        numBubbles = numBubbles
+    )
