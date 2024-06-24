@@ -26,11 +26,11 @@ from timm.scheduler import create_scheduler
 from timm.optim import create_optimizer
 from timm.utils import NativeScaler, get_state_dict, ModelEma
 
-from losses import DistillationLoss
-from samplers import RASampler
-import gvt
-import utils
-import collections
+from Twins.losses import DistillationLoss
+from Twins.samplers import RASampler
+import Twins.gvt
+import Twins.utils
+import Twins.collections
 
 # Import functions from other directories
 import Utilities.DataManagerPytorch as DMP
