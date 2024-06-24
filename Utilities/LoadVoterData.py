@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(0, '/workspace/caleb/VoterLab/SVM/VoterProject/data')
-
 import torch 
 import numpy as np
 import h5py
