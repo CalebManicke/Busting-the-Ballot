@@ -6,7 +6,6 @@ import os
 import Utilities.VoterLab_Classifier_Functions as voterlab
 import Utilities.DataManagerPytorch as DMP
 from matplotlib import pyplot as plt
-import Utilities.DataManagerPytorch as DMP
 
 ''' Each model and dataset has its own set of training hyperparameters. 
 
@@ -29,16 +28,11 @@ if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
 saveDirGrayscale = os.getcwd() + "//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
-# NOTE: Place Train + Bubble/Combined + Model Name function here!
-
-
 
 def TrainBubbleSVM(useGrayscale):
     # Hyperparameters
     imgSize = ((1, 40, 50) if useGrayscale else (3, 40, 50))
     batchSize = 1
-    # Initialize model
-    model = pseudoSVM(xtrain.size()[1], 1)
     print("------------------------------------")
     # Get dataloaders
     trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalBubbles')
@@ -62,8 +56,6 @@ def TrainCombinedSVM(useGrayscale):
     # Hyperparameters
     imgSize = ((1, 40, 50) if useGrayscale else (3, 40, 50))
     batchSize = 1
-    # Initialize model
-    model = pseudoSVM(xtrain.size()[1], 1)
     print("------------------------------------")
     # Get dataloaders
     trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalCombined')
@@ -104,3 +96,10 @@ class pseudoSVM(torch.nn.Module):
         with torch.no_grad():
             self.layer.weight = torch.nn.Parameter(torch.tensor(clf.coef_).float())
             self.layer.bias = torch.nn.Parameter(torch.tensor(clf.intercept_).float())
+
+if __name__ == '__main__':
+    # NOTE: Place Train + Bubble/Combined + Model Name function here!
+    TrainBubbleSVM(True)    # Grayscale Bubble
+    TrainBubbleSVM(False)   # RGB Bubble
+    TrainCombinedSVM(True)  # Grayscale Combined
+    TrainCombinedSVM(False) # RGB Combined
