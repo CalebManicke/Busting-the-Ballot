@@ -131,7 +131,7 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
             trainLoaderBalBubbles = checkpoint['TrainLoaderBalBubbles']
             valLoaderBubbles = checkpoint['ValLoaderBubbles']
         if imgSize[0] == 1:
-            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
+            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", map_location = torch.device("cpu"))
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']
