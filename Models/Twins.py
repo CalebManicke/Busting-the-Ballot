@@ -242,7 +242,7 @@ def ReturnTWINS(args, twins_type):
     model = create_model(
         args.model,
         pretrained=True,
-        num_classes=1000,
+        num_classes=2,
         drop_rate=args.drop,
         drop_path_rate=args.drop_path,
         drop_block_rate=None, 
