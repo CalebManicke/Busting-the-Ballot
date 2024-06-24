@@ -17,12 +17,13 @@ from timm.scheduler import create_scheduler
 from timm.optim import create_optimizer
 from timm.utils import NativeScaler, get_state_dict, ModelEma
 
-from datasets import build_dataset
-from engine import train_one_epoch, evaluate
-from losses import DistillationLoss
-from samplers import RASampler
-import gvt
-import utils
+from Twins.datasets import build_dataset
+from Twins.engine import train_one_epoch, evaluate
+from Twins.losses import DistillationLoss
+from Twins.samplers import RASampler
+import Twins.gvt
+import Twins.utils
+
 import collections
 import Utilities.DataManagerPytorch as DMP
 import Utilities.VoterLab_Classifier_Functions as voterlab
@@ -36,7 +37,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 ''' Functions for training Twins vision transformer
 
-Args for TrainTWINS:
+Args for TrainTwins:
     twins_type: 'BalCombined' for Combined RGB, 'GrayCombined' for Combined Grayscale, 'BalBubbles' for Bubbles RGB, 'GrayBubbles' for Bubbles Grayscale
     continueTraining: True to resume training... will take weights from args.resume
 
@@ -240,7 +241,7 @@ def train(args, twins_type, continueTraining = False):
     model = create_model(
             args.model,
             pretrained=True,
-            num_classes=1000,
+            num_classes=2,
             drop_rate=args.drop,
             drop_path_rate=args.drop_path,
             drop_block_rate=None, 
@@ -377,7 +378,7 @@ def train(args, twins_type, continueTraining = False):
     print('Training time {}'.format(total_time_str))
 
 
-def TrainTWINS(twins_type, continueTraining):
+def TrainTwins(twins_type, continueTraining):
     parser = argparse.ArgumentParser('Twins training and evaluation script', parents=[get_args_parser()])
     args = parser.parse_args()
     if args.output_dir:
