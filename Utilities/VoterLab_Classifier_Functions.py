@@ -61,12 +61,6 @@ def ReturnBalancedDataLoader(loader, numClasses, numSamplesRequired, batchSize):
 
 # Return training and validation loader 
 def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
-    # Create folders for trained loaders
-    saveDirColor = os.getcwd() + "//Trained_Color_VoterLab_Models//"
-    if not os.path.exists(saveDirColor): os.makedirs(saveDirColor)
-    saveDirGreyscale = os.getcwd() + "//Trained_Greyscale_VoterLab_Models//"
-    if not os.path.exists(saveDirGreyscale): os.makedirs(saveDirGreyscale)
-    
     # Load training and validation sets, normalize from 0-255 to 0-1 datarange, perform greyscale conversion, save
     if not loaderCreated:
         originalBatchSize = batchSize
@@ -123,13 +117,13 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
         print("Train Loader Size (After Greyscale): ", xData.size())
 
         # Save all loaders to color & greyscale directories
-        torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(saveDirColor, 'TrainLoaders.th'))
-        torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(saveDirGreyscale, 'TrainGreyscaleLoaders.th'))
+        torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(os.path.dirname(os.getcwd()) + '/Train/Trained_RGB_VoterLab_Models', "TrainLoaders.th"))
+        torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models", "TrainGrayscaleLoaders.th"))
     
     # If dataloaders were already created, load color/greyscale based on imgSize
     else:
         if imgSize[0] == 3:
-            checkpoint = torch.load("/workspace/caleb/VoterLab/Models/Trained_Color_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
+            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_RGB_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']
@@ -137,7 +131,7 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
             trainLoaderBalBubbles = checkpoint['TrainLoaderBalBubbles']
             valLoaderBubbles = checkpoint['ValLoaderBubbles']
         if imgSize[0] == 1:
-            checkpoint = torch.load("/workspace/caleb/VoterLab/Models/Trained_Greyscale_VoterLab_Models/TrainGreyscaleLoaders.th", map_location = torch.device("cpu"))
+            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']
@@ -742,3 +736,10 @@ def GetAllRightAndWrongExamples (device, models, numExamples, batchSize, dataLoa
     rightLoader = datamanager.TensorToDataLoader(xData = xDataRight, yData = yDataRight, batchSize = batchSize)
     wrongLoader = datamanager.TensorToDataLoader(xData = xDataWrong, yData = yDataWrong, batchSize = batchSize)
     return rightLoader, wrongLoader
+
+
+if __name__ == '__main__':
+    # Generate all training loaders...
+    print(os.path.dirname(os.getcwd()))
+    print("___Creating Training and Validation Loaders...___")
+    ReturnVoterLabDataLoaders(imgSize = (1, 40, 50), loaderCreated = False, batchSize = 64, loaderType = 'BalCombined')
