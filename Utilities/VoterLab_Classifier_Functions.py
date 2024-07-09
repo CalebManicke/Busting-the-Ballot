@@ -1,5 +1,11 @@
 # This is a library of functions we'll use to evaluate VoterLab classifier models
 # Many of these functions bear resemblance to those in DataManagerPyTorch since they were modified to work with binary classifiers
+
+import sys
+sys.path.insert(0, '/home/cam18027/VoterLab/Models')
+sys.path.insert(0, '/home/cam18027/VoterLab/Utilities')
+sys.path.insert(0, '/home/cam18027/VoterLab/Attacks')
+
 import torch
 import torchvision
 import torch.nn as nn
@@ -26,6 +32,12 @@ import os
 from PIL import Image
 from random import shuffle
 import LoadVoterData
+
+# Save all loaders to color & greyscale directories
+saveDirRGB =  os.path.dirname(os.getcwd())  + "//Train//Trained_RGB_VoterLab_Models//"
+if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
+saveDirGrayscale = os.path.dirname(os.getcwd())  + "//Train//Trained_Grayscale_VoterLab_Models//"
+if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 # Given a dataloader, return a balanced dataloader with numSamplesRequired // numClasses examples for each class
 def ReturnBalancedDataLoader(loader, numClasses, numSamplesRequired, batchSize):
@@ -111,10 +123,8 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
         print("Train Loader Size (After Greyscale): ", xData.size())
 
         # Save all loaders to color & greyscale directories
-        os.makedirs(os.path.dirname(os.getcwd()) + '/Train/Trained_RGB_VoterLab_Models')
-        os.makedirs(os.path.dirname(os.getcwd()) + '/Train/Trained_Grayscale_VoterLab_Models')
-        torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(os.path.dirname(os.getcwd()) + '/Train/Trained_RGB_VoterLab_Models', "TrainLoaders.th"))
-        torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models", "TrainGrayscaleLoaders.th"))
+        torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(saveDirRGB, "TrainLoaders.th"))
+        torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(saveDirGrayscale, "TrainGrayscaleLoaders.th"))
     
     # If dataloaders were already created, load color/greyscale based on imgSize
     else:
