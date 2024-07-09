@@ -111,6 +111,8 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
         print("Train Loader Size (After Greyscale): ", xData.size())
 
         # Save all loaders to color & greyscale directories
+        os.makedirs(os.path.dirname(os.getcwd()) + '/Train/Trained_RGB_VoterLab_Models')
+        os.makedirs(os.path.dirname(os.getcwd()) + '/Train/Trained_Grayscale_VoterLab_Models')
         torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(os.path.dirname(os.getcwd()) + '/Train/Trained_RGB_VoterLab_Models', "TrainLoaders.th"))
         torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models", "TrainGrayscaleLoaders.th"))
     
