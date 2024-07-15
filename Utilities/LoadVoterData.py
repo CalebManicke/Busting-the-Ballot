@@ -447,9 +447,9 @@ def SetUpDataset(file, balanced = True):
 
 def LoadData(balanced = True):
     if not balanced:
-        name = "/workspace/caleb/VoterLab/Utilities/data/VoterData.torch"
+        name = os.getcwd() + "//data//VoterData.torch"
     else:
-        name = "/workspace/caleb/VoterLab/Utilities/data/VoterDataBalanced.torch"
+        name = os.getcwd() + "//data//VoterDataBalanced.torch"
     data = torch.load(name)
     xtrain = data["train"]["x"]
     ytrain = data["train"]["y"]
