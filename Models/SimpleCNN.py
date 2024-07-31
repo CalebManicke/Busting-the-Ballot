@@ -5,21 +5,14 @@ import torch.nn.functional as F
 import torch.nn.init as init
 from torch.autograd import Variable
 from torchsummary import summary
-#from LoadVoterData import LoadData
 import numpy
 import torch
-#import APGD
 from collections import OrderedDict
 import torch.optim.lr_scheduler as schedulers
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-from torchvision.models.densenet import DenseNet
 import torch.optim as optim
-#import AttackWrappersWhiteBoxP as attack
 from random import shuffle
-#import VoterLab_Classifier_Functions as voterlab
-#import LoadVoterData
-#import DataManagerPytorch as datamanager
 import os
 
 # Class that defines one same convolutional layer
