@@ -36,9 +36,9 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  os.getcwd() + "//Trained_RGB_VoterLab_Models//"
+saveDirRGB =  "//home/caleb/VoterWork//Models//Trained_RGB_VoterLab_Models//"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = os.getcwd() + "//Trained_Grayscale_VoterLab_Models//"
+saveDirGrayscale = "//home/caleb/VoterWork//Models//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
@@ -65,7 +65,7 @@ def TrainBubbleResNet20(useGrayscale, continueTraining = False):
     # Get model summary
     summary(model.to(device), input_size = imgSize)
     # Train and validate
-    saveTag = 'BalBubbles_Trained_SimpleCNN'
+    saveTag = 'ResNet-20-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
     model.eval()
@@ -100,7 +100,7 @@ def TrainCombinedResNet20(useGrayscale, continueTraining = False):
     # Get model summary
     summary(model.to(device), input_size = imgSize)
     # Train and validate
-    saveTag = 'BalCombined_Trained_SimpleCNN'
+    saveTag = 'ResNet-20-C'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
     model.eval()
