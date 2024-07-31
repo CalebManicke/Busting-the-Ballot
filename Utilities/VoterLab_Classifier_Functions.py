@@ -1,5 +1,11 @@
 # This is a library of functions we'll use to evaluate VoterLab classifier models
 # Many of these functions bear resemblance to those in DataManagerPyTorch since they were modified to work with binary classifiers
+
+import sys
+sys.path.insert(0, '/home/cam18027/VoterLab/Models')
+sys.path.insert(0, '/home/cam18027/VoterLab/Utilities')
+sys.path.insert(0, '/home/cam18027/VoterLab/Attacks')
+
 import torch
 import torchvision
 import torch.nn as nn
@@ -119,6 +125,8 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
         # Save all loaders to color & greyscale directories
         torch.save({'TrainLoaderCombined': trainLoaderCombined, 'TrainLoaderBalCombined': trainLoaderBalCombined, 'ValLoaderCombined': valLoaderCombined, 'TrainLoaderBubbles': trainLoaderBubbles, 'TrainLoaderBalBubbles': trainLoaderBalBubbles, 'ValLoaderBubbles': valLoaderBubbles}, os.path.join(saveDirRGB, "TrainLoaders.th"))
         torch.save({'TrainLoaderCombined': trainLoaderGreyscaleCombined, 'TrainLoaderBalCombined': trainLoaderGreyscaleBalCombined, 'ValLoaderCombined': valLoaderGreyscaleCombined, 'TrainLoaderBubbles': trainLoaderGreyscaleBubbles, 'TrainLoaderBalBubbles': trainLoaderGreyscaleBalBubbles, 'ValLoaderBubbles': valLoaderGreyscaleBubbles}, os.path.join(saveDirGrayscale, "TrainGrayscaleLoaders.th"))
+        torch.save(valLoaderBubbles, os.path.join(saveDirRGB, "ValBubbles.th"))
+        torch.save(valLoaderGreyscaleBubbles, os.path.join(saveDirGrayscale, "ValLoaders.th"))
     
     # If dataloaders were already created, load color/greyscale based on imgSize
     else:
