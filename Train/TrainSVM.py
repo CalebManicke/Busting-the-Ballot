@@ -47,7 +47,7 @@ def TrainBubbleSVM(useGrayscale):
     model = pseudoSVM(xtrain.size()[1], 1)
     model.TrainModel(xtrain, ytrain, xtest, ytest)
     # Save trained SVM
-    saveTag = 'BalBubbles_Trained_SVM'
+    saveTag = 'SVM-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     torch.save(model.state_dict(), os.path.join(saveDir, saveTag + '.pth'))
 
@@ -70,7 +70,7 @@ def TrainCombinedSVM(useGrayscale):
     model = pseudoSVM(xtrain.size()[1], 1)
     model.TrainModel(xtrain, ytrain, xtest, ytest)
     # Save trained SVM
-    saveTag = 'BalCombined_Trained_SVM'
+    saveTag = 'SVM-C'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     torch.save(model.state_dict(), os.path.join(saveDir, saveTag + '.pth'))
 
@@ -97,9 +97,6 @@ class pseudoSVM(torch.nn.Module):
             self.layer.weight = torch.nn.Parameter(torch.tensor(clf.coef_).float())
             self.layer.bias = torch.nn.Parameter(torch.tensor(clf.intercept_).float())
 
-if __name__ == '__main__':
-    # NOTE: Place Train + Bubble/Combined + Model Name function here!
-    TrainBubbleSVM(True)    # Grayscale Bubble
-    TrainBubbleSVM(False)   # RGB Bubble
-    TrainCombinedSVM(True)  # Grayscale Combined
-    TrainCombinedSVM(False) # RGB Combined
+
+# NOTE: Place Train + Bubble/Combined + Model Name function here!
+TrainCombinedSVM(True)
