@@ -20,6 +20,22 @@ import Utilities.VoterLab_Classifier_Functions as voterlab
 from Models.SimpleCNN import SimpleCNN
 from ImageProcessing.LoadScannedBubbles import ReturnScannedDataLoader
 
+# General libraries
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.nn.init as init
+from torch.autograd import Variable
+import torch.optim.lr_scheduler as schedulers
+import torchvision.transforms as transforms
+import torchvision.datasets as datasets
+import torch.optim as optim
+import matplotlib.pyplot as plt
+import numpy as np
+from torchsummary import summary
+from random import shuffle
+import os
+
 ''' Each model and dataset has its own set of training hyperparameters. 
 
 Args:
@@ -36,9 +52,9 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  os.getcwd() + "//Trained_RGB_VoterLab_Models//"
+saveDirRGB =  "//home/caleb/VoterWork//Models//Trained_RGB_VoterLab_Models//"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = os.getcwd() + "//Trained_Grayscale_VoterLab_Models//"
+saveDirGrayscale = "//home/caleb/VoterWork//Models//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
@@ -64,7 +80,7 @@ def TrainBubbleSimpleCNN(useGrayscale, continueTraining = False):
     # Get model summary
     summary(model.to(device), input_size = imgSize)
     # Train and validate
-    saveTag = 'BalBubbles_Trained_SimpleCNN'
+    saveTag = 'SimpleCNN-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
     model.eval()
@@ -98,7 +114,7 @@ def TrainCombinedSimpleCNN(useGrayscale, continueTraining = False):
     # Get model summary
     summary(model.to(device), input_size = imgSize)
     # Train and validate
-    saveTag = 'BalCombined_Trained_SimpleCNN'
+    saveTag = 'SimpleCNN-C'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
     bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
     model.eval()
