@@ -7,7 +7,11 @@ import torch.nn.functional as F
 import torch.nn.init as init
 from torch.autograd import Variable
 from torchsummary import summary
-from LoadVoterData import LoadData
+
+import sys
+sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
+from Utilities.LoadVoterData import LoadData
+
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
@@ -21,7 +25,11 @@ import torch.optim as optim
 #import AttackWrappersWhiteBoxP as attack
 from random import shuffle
 #import APGD
-import DataManagerPytorch as datamanager
+
+import sys
+sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
+import Utilities.DataManagerPytorch as datamanager
+
 import os
 from PIL import Image
 from random import shuffle
