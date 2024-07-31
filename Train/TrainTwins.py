@@ -377,10 +377,16 @@ def train(args, twins_type, continueTraining = False):
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     print('Training time {}'.format(total_time_str))
 
+    # Save final model
+    saveTag = 'TWINS-' + ('B' if 'Bubbles' in twins_type else '-C')
+    saveDir = (saveDirGrayscale if 'Gray' in twins_type else saveDirRGB)
+    torch.save({'state_dict': model.state_dict()}, os.path.join(saveDir, saveTag + '.pth')) 
 
-def TrainTwins(twins_type, continueTraining):
+
+def TrainTWINS(twins_type, continueTraining):
     parser = argparse.ArgumentParser('Twins training and evaluation script', parents=[get_args_parser()])
     args = parser.parse_args()
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     train(args, twins_type, continueTraining)
+    
