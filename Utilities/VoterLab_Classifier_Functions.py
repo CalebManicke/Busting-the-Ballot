@@ -1,11 +1,5 @@
 # This is a library of functions we'll use to evaluate VoterLab classifier models
 # Many of these functions bear resemblance to those in DataManagerPyTorch since they were modified to work with binary classifiers
-
-import sys
-sys.path.insert(0, '/home/cam18027/VoterLab/Models')
-sys.path.insert(0, '/home/cam18027/VoterLab/Utilities')
-sys.path.insert(0, '/home/cam18027/VoterLab/Attacks')
-
 import torch
 import torchvision
 import torch.nn as nn
