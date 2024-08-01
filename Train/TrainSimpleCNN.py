@@ -20,7 +20,7 @@ sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
 import Utilities.DataManagerPytorch as datamanager
 import Utilities.VoterLab_Classifier_Functions as voterlab
 from Models.SimpleCNN import SimpleCNN
-from ImageProcessing.LoadScannedBubbles import ReturnScannedDataLoader
+from ImageProcessing.LoadScannedBubbles import ReturnOrganizedScannedDataLoader
 
 # General libraries
 import torch
@@ -75,7 +75,7 @@ def TrainBubbleSimpleCNN(useGrayscale, continueTraining = False):
     model = SimpleCNN(imgSize = imgSize, dropOutRate = dropOutRate, numClasses = 2)
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr = learningRate, weight_decay = weightDecay)
+    optimizer = optim.AdamW(model.parameters(), lr = learningRate, weight_decay = weightDecay)
     print("------------------------------------")
     # Get dataloaders
     trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalBubbles')
@@ -84,7 +84,7 @@ def TrainBubbleSimpleCNN(useGrayscale, continueTraining = False):
     # Train and validate
     saveTag = 'SimpleCNN-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
-    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
+    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, scheduleList=[], saveTag = saveTag, saveDir = saveDir)
     model.eval()
     print("------------------------------------")
     print("Done training SimpleCNN on BalBubbles...")
@@ -109,7 +109,7 @@ def TrainCombinedSimpleCNN(useGrayscale, continueTraining = False):
     model = SimpleCNN(imgSize = imgSize, dropOutRate = dropOutRate, numClasses = 2)
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr = learningRate, weight_decay = weightDecay)
+    optimizer = optim.AdamW(model.parameters(), lr = learningRate, weight_decay = weightDecay)
     print("------------------------------------")
     # Get dataloaders
     trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalCombined')
@@ -118,7 +118,7 @@ def TrainCombinedSimpleCNN(useGrayscale, continueTraining = False):
     # Train and validate
     saveTag = 'SimpleCNN-C'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
-    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
+    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, scheduleList=[], saveTag = saveTag, saveDir = saveDir)
     model.eval()
     print("------------------------------------")
     print("Done training SimpleCNN on BalCombined...")
@@ -168,7 +168,7 @@ def train(numEpochs, model, trainLoader, valLoader, device, continueTraining, op
             # Forward pass
             scores = model(data)
             loss = criterion(scores, target_vars)   # Loss function
-
+            print(loss)
             # Backward
             optimizer.zero_grad() # We want to set all gradients to zero for each batch so it doesn't store backprop calculations from previous forwardprops
             loss.backward()
@@ -202,4 +202,4 @@ def train(numEpochs, model, trainLoader, valLoader, device, continueTraining, op
 
 
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
-TrainCombinedSimpleCNN(useGrayscale=True, continueTraining = False)
+TrainBubbleSimpleCNN(useGrayscale=True, continueTraining = False)

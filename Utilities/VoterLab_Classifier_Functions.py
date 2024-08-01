@@ -33,7 +33,7 @@ import Utilities.DataManagerPytorch as datamanager
 import os
 from PIL import Image
 from random import shuffle
-import LoadVoterData
+import Utilities.LoadVoterData
 
 # Save all loaders to color & greyscale directories
 saveDirRGB =  os.path.dirname(os.getcwd())  + "//Train//Trained_RGB_VoterLab_Models//"
