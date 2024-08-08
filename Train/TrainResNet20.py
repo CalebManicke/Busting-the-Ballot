@@ -20,6 +20,7 @@ sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
 import Utilities.DataManagerPytorch as datamanager
 import Utilities.VoterLab_Classifier_Functions as voterlab
 from Models.SimpleCNN import SimpleCNN
+from Models.ResNet import resnet20
 from ImageProcessing.LoadScannedBubbles import ReturnOrganizedScannedDataLoader
 
 ''' Each model and dataset has its own set of training hyperparameters. 
