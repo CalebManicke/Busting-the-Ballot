@@ -70,7 +70,7 @@ def TrainBubbleResNet20(useGrayscale, continueTraining = False):
     # Train and validate
     saveTag = 'ResNet-20-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
-    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
+    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, scheduleList=[], saveTag = saveTag, saveDir = saveDir)
     model.eval()
     print("------------------------------------")
     print("Done training SimpleCNN on BalBubbles...")
@@ -105,7 +105,7 @@ def TrainCombinedResNet20(useGrayscale, continueTraining = False):
     # Train and validate
     saveTag = 'ResNet-20-C'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
-    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, saveTag = saveTag, saveDir = saveDir)
+    bestModel, bestEpoch, bestValAcc = train(numEpochs = numEpochs, model = model, trainLoader = trainLoader, valLoader = valLoader, device = device, continueTraining = continueTraining, optimizer = optimizer, criterion = criterion, scheduleList=[], saveTag = saveTag, saveDir = saveDir)
     model.eval()
     print("------------------------------------")
     print("Done training SimpleCNN on BalCombined...")
