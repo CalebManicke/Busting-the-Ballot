@@ -14,11 +14,13 @@ from torchsummary import summary
 from random import shuffle
 import os
 
+import sys
+sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
 # VoterLab specific files
 import Utilities.DataManagerPytorch as datamanager
 import Utilities.VoterLab_Classifier_Functions as voterlab
 from Models.SimpleCNN import SimpleCNN
-from ImageProcessing.LoadScannedBubbles import ReturnScannedDataLoader
+from ImageProcessing.LoadScannedBubbles import ReturnOrganizedScannedDataLoader
 
 ''' Each model and dataset has its own set of training hyperparameters. 
 
@@ -36,12 +38,12 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  "//home/caleb/VoterWork//Models//Trained_RGB_VoterLab_Models//"
+saveDirRGB =  "../Models/Trained_RGB_VoterLab_Models/"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = "//home/caleb/VoterWork//Models//Trained_Grayscale_VoterLab_Models//"
+saveDirGrayscale = "../Models/Trained_Grayscale_VoterLab_Models/"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
-# NOTE: Place Train + Bubble/Combined + Model Name function here!
+
 
 
 
@@ -183,3 +185,6 @@ def train(numEpochs, model, trainLoader, valLoader, device, continueTraining, op
     print("Training Completed...")
     print("------------------------------------")
     return bestModel, bestEpoch, bestValAcc
+
+# NOTE: Place Train + Bubble/Combined + Model Name function here!
+TrainCombinedResNet20(useGrayscale=True, continueTraining = False)
