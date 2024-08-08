@@ -155,7 +155,7 @@ def train(numEpochs, model, trainLoader, valLoader, device, continueTraining, op
             # Forward pass
             scores = model(data)
             loss = criterion(scores, target_vars)   # Loss function
-
+            print(loss)
             # Backward
             optimizer.zero_grad() # We want to set all gradients to zero for each batch so it doesn't store backprop calculations from previous forwardprops
             loss.backward()
