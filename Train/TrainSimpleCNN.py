@@ -157,6 +157,7 @@ def train(numEpochs, model, trainLoader, valLoader, device, continueTraining, op
 
     for epoch in range(curEpoch, numEpochs+1):
         model.train()
+        trainLoader = datamanager.ManuallyShuffleDataLoader(trainLoader)
         #print("Training Epoch: ", epoch)
         for i, (data, targets) in enumerate(trainLoader):
             data = Variable(data.to(device = device), requires_grad = True)
