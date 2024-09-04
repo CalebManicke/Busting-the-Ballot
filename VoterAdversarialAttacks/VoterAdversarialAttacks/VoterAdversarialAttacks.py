@@ -4,8 +4,8 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 def main():
     #Default Method Calls
-    baseDir = "C://Users//kaleel//Desktop//Saved Models//Voter Dataset//Grayscale//"
-    dirData = "C://Users//kaleel//Desktop//Kaleel//2024 Adversarial Voting//Voting Dataset//valLoaderGreyscaleBubbles.th"
+    baseDir = "" # Insert directory where trained models are located
+    dirData = "" # Insert location of validation bubble data loader here
     #DefaultMethods.CheckCleanAccAllModels(baseDir, dirData)
     attackNames = ["APGD-Original", "APGD", "PGD", "MIM", "FGSM"]
     modelNames = ["ResNet-20-B","ResNet-20-C","SimpleCNN-B", "SimpleCNN-C", "SVM-B", "SVM-C"]

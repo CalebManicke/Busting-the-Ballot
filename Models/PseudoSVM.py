@@ -1,4 +1,3 @@
-# Code written by EthanRathburn
 import torch
 from sklearn.svm import LinearSVC
 

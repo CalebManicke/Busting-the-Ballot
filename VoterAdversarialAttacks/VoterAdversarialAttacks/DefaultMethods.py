@@ -9,10 +9,8 @@ import APGDVoter
 import AttackWrappersWhiteBoxVoter
 import APGDOriginal
 
-#Run through the clean accuracy of all the models given the saved model folder annd
+#Run through the clean accuracy of all the models given the saved model folder and
 #the full path of the dataloader.
-#baseDir = "C://Users//kaleel//Desktop//Saved Models//Voter Dataset//Grayscale//"
-#dirData = "C://Users//kaleel//Desktop//Kaleel//2024 Adversarial Voting//DebugResNet//DebugResNet//valLoaderGreyscaleBubbles.th"
 def CheckCleanAccAllModels(baseDir, dirData):   
     modelNames = ["ResNet-20-B","ResNet-20-C","SimpleCNN-B", "SimpleCNN-C", "SVM-B", "SVM-C"]
     #Setup the dataloader and device 

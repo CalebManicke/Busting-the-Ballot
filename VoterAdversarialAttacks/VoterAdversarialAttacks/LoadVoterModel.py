@@ -4,7 +4,6 @@ import ResNet
 import SimpleCNN
 import VoterSVM
 
-#baseDir ="C://Users//kaleel//Desktop//Saved Models//Voter Dataset//Grayscale//"
 def LoadModelGrayscaleByName(baseDir, modelName):
     #Shared parameter setup
     numClasses = 2

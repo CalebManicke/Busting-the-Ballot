@@ -499,7 +499,6 @@ def LoadTinyImageNetTrainingData(mainDir, imgSize, batchSize, shuffle):
 #Takes the Tiny ImageNet main dir (as string) as input, imgSize, batchSize and shuffle (true/false)
 #Returns the test loader as output 
 def LoadTinyImageNetValidationData(mainDir, imgSize, batchSize):
-    #mainDir = "C://Users//kaleel//Desktop//Tiny ImageNet//tiny-imagenet-200"
     #Create the dictionary to get the class labels 
     imgNum = 10000 #This part hardcoded for Tiny ImageNet
     wnidsDir = mainDir + "//tiny-imagenet-200//wnids.txt"

@@ -1,4 +1,3 @@
-# Code written by EthanRathburn, edited by Caleb Manicke
 import torch
 from sklearn.svm import LinearSVC
 import os
@@ -23,9 +22,9 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  os.getcwd() + "//Trained_RGB_VoterLab_Models//"
+saveDirRGB =  os.path.dirname(os.getcwd()) + "//Trained_RGB_VoterLab_Models//"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = os.getcwd() + "//Trained_Grayscale_VoterLab_Models//"
+saveDirGrayscale = os.path.dirname(os.getcwd()) + "//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 
