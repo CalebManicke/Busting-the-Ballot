@@ -54,14 +54,10 @@ if (torch.cuda.is_available()):
     print('CUDA Device Total Memory [GB]:',torch.cuda.get_device_properties(0).total_memory/1e9)
 
 # Create folders for trained models 
-saveDirRGB =  "../Models/Trained_RGB_VoterLab_Models/"
+saveDirRGB =  "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Models/Trained_RGB_VoterLab_Models/"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-saveDirGrayscale = "../Models/Trained_Grayscale_VoterLab_Models/"
+saveDirGrayscale = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Models/Trained_Grayscale_VoterLab_Models/"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
-
-
-
-
 
 def TrainBubbleSimpleCNN(useGrayscale, continueTraining = False):
     # Hyperparameters

@@ -1,3 +1,5 @@
 data/data_Blank_Vote_Questionable.h5
 data/VoterDataBalanced.torch
 data/*
+.DS_Store
+Utilities/data_Blank_Vote_Questionable.h5

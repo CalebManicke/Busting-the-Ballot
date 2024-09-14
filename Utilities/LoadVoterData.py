@@ -437,7 +437,8 @@ def SetUpDataset(file, balanced = True):
         name = "data/VoterData.torch"
     else:
         xtrain,ytrain,xtest,ytest = LoadRawDataBalanced(file)
-        name = "data/VoterDataBalanced.torch"
+        # name = "data/VoterDataBalanced.torch"
+        name = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/VoterDataBalanced.torch"
 
     print(xtrain.size(), xtest.size())
     print(ytrain.size(), ytest.size())
@@ -447,9 +448,11 @@ def SetUpDataset(file, balanced = True):
 
 def LoadData(balanced = True):
     if not balanced:
-        name = os.getcwd() + "//data//VoterData.torch"
+        # name = os.getcwd() + "//data//VoterData.torch"
+        name = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/VoterData.torch"
     else:
-        name = os.getcwd() + "//data//VoterDataBalanced.torch"
+        # name = os.getcwd() + "//data//VoterDataBalanced.torch"
+        name = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/VoterDataBalanced.torch"
     data = torch.load(name)
     xtrain = data["train"]["x"]
     ytrain = data["train"]["y"]
@@ -463,8 +466,8 @@ def LoadData(balanced = True):
 if __name__ == "__main__":
 
     #Data is stored in the /data folder
-    if not os.path.isdir("data"):
-        os.mkdir("data")
+    if not os.path.isdir("/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data"):
+        os.mkdir("/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data")
 
-    file = "data/data_Blank_Vote_Questionable.h5"
+    file = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
     SetUpDataset(file)
