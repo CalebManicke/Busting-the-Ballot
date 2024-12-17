@@ -8,9 +8,10 @@ import torch.nn.init as init
 from torch.autograd import Variable
 from torchsummary import summary
 
-import sys
-sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
+# import sys
+# sys.path.insert(0,"/home/aayushi/GitHub/Busting-the-Ballot/")
 # from Utilities.LoadVoterData import LoadData
+# import Utilities.LoadVoterData
 import Utilities.LoadVoterData
 
 import numpy as np
@@ -27,21 +28,23 @@ import torch.optim as optim
 from random import shuffle
 #import APGD
 
-import sys
-sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
+# import sys
+# sys.path.insert(0,"/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/")
 import Utilities.DataManagerPytorch as datamanager
+# import DataManagerPytorch as datamanager
 
 import os
 from PIL import Image
 from random import shuffle
-import Utilities.LoadVoterData
+# import Utilities.LoadVoterData
+# import LoadVoterData
 
 # Save all loaders to color & greyscale directories
-# saveDirRGB =  os.path.dirname(os.getcwd())  + "//Train//Trained_RGB_VoterLab_Models//"
-saveDirRGB =  "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_RGB_VoterLab_Models/"
+saveDirRGB =  os.path.dirname(os.getcwd())  + "//Train//Trained_RGB_VoterLab_Models//"
+# saveDirRGB =  "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_RGB_VoterLab_Models/"
 if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
-# saveDirGrayscale = os.path.dirname(os.getcwd())  + "//Train//Trained_Grayscale_VoterLab_Models//"
-saveDirGrayscale = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_Grayscale_VoterLab_Models/"
+saveDirGrayscale = os.path.dirname(os.getcwd())  + "//Train//Trained_Grayscale_VoterLab_Models//"
+# saveDirGrayscale = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_Grayscale_VoterLab_Models/"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
 # Given a dataloader, return a balanced dataloader with numSamplesRequired // numClasses examples for each class
@@ -78,12 +81,12 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
         # Split examples containing bubbles & no bubbles into train & test loaders (make sure there's no overlap)
         # This allows us to take overlap of validation examples from models exclusively trained on bubbles and those not
         xtrainBubbles, ytrainBubbles, xtestBubbles, ytestBubbles = LoadVoterData.OnlyBubbles(
-            # "data/data_Blank_Vote_Questionable.h5"
-            "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
+            "data/data_Blank_Vote_Questionable.h5"
+            # "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
             )
         xtrainCombined, ytrainCombined, xtestCombined, ytestCombined = LoadVoterData.LoadRawDataBalanced(
-            # "data/data_Blank_Vote_Questionable.h5"
-            "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
+            "data/data_Blank_Vote_Questionable.h5"
+            # "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
             )
         
         # Normalize from 0-255 range to 0-1
@@ -142,11 +145,11 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
     # If dataloaders were already created, load color/greyscale based on imgSize
     else:
         if imgSize[0] == 3:
-            # checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_RGB_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
-            checkpoint = torch.load(
-                "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_RGB_VoterLab_Models/TrainLoaders.th", 
-                map_location = torch.device("cpu")
-                )
+            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_RGB_VoterLab_Models/TrainLoaders.th", map_location = torch.device("cpu"))
+            # checkpoint = torch.load(
+            #     "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_RGB_VoterLab_Models/TrainLoaders.th", 
+            #     map_location = torch.device("cpu")
+            #     )
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']
@@ -154,11 +157,14 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
             trainLoaderBalBubbles = checkpoint['TrainLoaderBalBubbles']
             valLoaderBubbles = checkpoint['ValLoaderBubbles']
         if imgSize[0] == 1:
+            print(os.getcwd())
+            print(os.path.dirname(os.getcwd()))
+            checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", map_location = torch.device("cpu"))
             # checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", map_location = torch.device("cpu"))
-            checkpoint = torch.load(
-                "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", 
-                map_location = torch.device("cpu")
-                )
+            # # checkpoint = torch.load(
+            #     "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", 
+            #     map_location = torch.device("cpu")
+            #     )
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']

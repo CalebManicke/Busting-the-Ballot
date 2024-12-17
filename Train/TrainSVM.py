@@ -2,6 +2,17 @@
 import torch
 from sklearn.svm import LinearSVC
 import os
+import sys
+# print(os.getcwd())
+# print("Current sys.path:")
+# for path in sys.path:
+#     print(path)
+# sys.path.insert(0, "/home/aayushi/GitHub/Busting-the-Ballot/")
+
+# parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+print("os.path.dirname(os.getcwd()): ",os.path.dirname(os.getcwd()))
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+print("os.getcwd(): ",os.getcwd())
 
 import Utilities.VoterLab_Classifier_Functions as voterlab
 import Utilities.DataManagerPytorch as DMP

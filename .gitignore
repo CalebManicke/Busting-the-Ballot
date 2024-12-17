@@ -4,3 +4,6 @@ data/*
 .DS_Store
 Utilities/data_Blank_Vote_Questionable.h5
 Utilities/blank_bubbles.pth
+venv_busting_the_ballot/*
+Train/*
+Utilities/data/*
