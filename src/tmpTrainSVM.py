@@ -13,7 +13,7 @@ import os
 # import Utilities.DataManagerPytorch as DMP
 # import Utilities.LoadVoterData as LoadVoterData
 
-import tmpUtils
+import src.tmpUtils as tmpUtils
 import DataManagerPytorch
 
 from matplotlib import pyplot as plt
