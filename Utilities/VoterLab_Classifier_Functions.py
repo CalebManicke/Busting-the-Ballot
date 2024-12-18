@@ -7,7 +7,6 @@ import torch.nn.functional as F
 import torch.nn.init as init
 from torch.autograd import Variable
 from torchsummary import summary
-from LoadVoterData import LoadData
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
@@ -21,11 +20,15 @@ import torch.optim as optim
 #import AttackWrappersWhiteBoxP as attack
 from random import shuffle
 #import APGD
-import DataManagerPytorch as datamanager
+
 import os
 from PIL import Image
 from random import shuffle
-import LoadVoterData
+import sys
+sys.path.insert(0, "/home/aayushi/GitHub/Busting-the-Ballot/")
+import Utilities.DataManagerPytorch as datamanager
+import Utilities.LoadVoterData
+from Utilities.LoadVoterData import LoadData
 
 # Save all loaders to color & greyscale directories
 saveDirRGB =  os.path.dirname(os.getcwd())  + "//Train//Trained_RGB_VoterLab_Models//"
@@ -134,6 +137,7 @@ def ReturnVoterLabDataLoaders(imgSize, loaderCreated, batchSize, loaderType):
             valLoaderBubbles = checkpoint['ValLoaderBubbles']
         if imgSize[0] == 1:
             checkpoint = torch.load(os.path.dirname(os.getcwd()) + "/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", map_location = torch.device("cpu"))
+            # checkpoint = torch.load(os.getcwd() + "/Train/Trained_Grayscale_VoterLab_Models/TrainGrayscaleLoaders.th", map_location = torch.device("cpu"))
             trainLoaderCombined = checkpoint['TrainLoaderCombined']
             trainLoaderBalCombined = checkpoint['TrainLoaderBalCombined']
             valLoaderCombined = checkpoint['ValLoaderCombined']

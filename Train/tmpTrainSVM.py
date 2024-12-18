@@ -1,16 +1,21 @@
 import torch
 from sklearn.svm import LinearSVC
 import os
-print(os.getcwd())
-import sys
-print(sys.path)
-sys.path.insert(0, os.getcwd())
-import sys
-sys.path.insert(0, "/home/aayushi/GitHub/Busting-the-Ballot/")
-print(sys.path)
-import Utilities.VoterLab_Classifier_Functions as voterlab
-import Utilities.DataManagerPytorch as DMP
-import Utilities.LoadVoterData as LoadVoterData
+# print(os.getcwd())
+# import sys
+# print(sys.path)
+# sys.path.insert(0, os.getcwd())
+# import sys
+# sys.path.insert(0, "/home/aayushi/GitHub/Busting-the-Ballot/")
+# print(sys.path)
+
+# import Utilities.VoterLab_Classifier_Functions as voterlab
+# import Utilities.DataManagerPytorch as DMP
+# import Utilities.LoadVoterData as LoadVoterData
+
+import tmpUtils
+import DataManagerPytorch
+
 from matplotlib import pyplot as plt
 
 
@@ -43,9 +48,9 @@ def TrainBubbleSVM(useGrayscale):
     batchSize = 1
     print("------------------------------------")
     # Get dataloaders
-    trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalBubbles')
-    xtrain, ytrain =  DMP.DataLoaderToTensor(trainLoader)
-    xtest, ytest = DMP.DataLoaderToTensor(valLoader)
+    trainLoader, valLoader = tmpUtils.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalBubbles')
+    xtrain, ytrain =  tmpUtils.DataLoaderToTensor(trainLoader)
+    xtest, ytest = tmpUtils.DataLoaderToTensor(valLoader)
     xtrain = torch.flatten(xtrain, start_dim = 1)
     xtest = torch.flatten(xtest, start_dim = 1)
     # Normalize
@@ -66,9 +71,9 @@ def TrainCombinedSVM(useGrayscale):
     batchSize = 1
     print("------------------------------------")
     # Get dataloaders
-    trainLoader, valLoader = voterlab.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalCombined')
-    xtrain, ytrain =  DMP.DataLoaderToTensor(trainLoader)
-    xtest, ytest = DMP.DataLoaderToTensor(valLoader)
+    trainLoader, valLoader = tmpUtils.ReturnVoterLabDataLoaders(imgSize = imgSize, loaderCreated = True, batchSize = batchSize, loaderType = 'BalCombined')
+    xtrain, ytrain =  tmpUtils.DataLoaderToTensor(trainLoader)
+    xtest, ytest = tmpUtils.DataLoaderToTensor(valLoader)
     xtrain = torch.flatten(xtrain, start_dim = 1)
     xtest = torch.flatten(xtest, start_dim = 1)
     # Normalize

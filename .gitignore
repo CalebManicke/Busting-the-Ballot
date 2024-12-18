@@ -1,0 +1,8 @@
+venv_busting_the_ballot/*
+data/*
+Train/Trained_Grayscale_VoterLab_Models/*
+Train/Trained_RGB_VoterLab_Models/*
+Trained_Grayscale_VoterLab_Models/*
+Trained_RGB_VoterLab_Models/*
+Utilities/__pycache__/*
+Utilities/data/*
