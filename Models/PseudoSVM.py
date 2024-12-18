@@ -5,7 +5,7 @@ from Utilities import LoadVoterData as LVD
 from Utilities.ModelPlus import ModelPlus
 from Utilities import DataManagerPytorch as DMP
 from matplotlib import pyplot as plt
-import DataManagerPytorch as DMP
+import Utilties.DataManagerPytorch as DMP
 
 class pseudoSVM(torch.nn.Module):
     def __init__(self, insize, outsize):
