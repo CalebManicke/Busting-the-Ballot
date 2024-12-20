@@ -34,7 +34,7 @@ if not os.path.exists(saveDirRGB): os.makedirs(saveDirRGB)
 saveDirGrayscale = os.path.dirname(os.getcwd()) + "//Trained_Grayscale_VoterLab_Models//"
 if not os.path.exists(saveDirGrayscale): os.makedirs(saveDirGrayscale)
 
-def gradients_heatmap(data, img_size, title, cmap="viridis"):
+def gradients_heatmap(data, img_size, title, filename, cmap="viridis"):
     """
     Create and save a heatmap from the data into the `figs/` directory one level above the current working directory.
 
@@ -42,26 +42,29 @@ def gradients_heatmap(data, img_size, title, cmap="viridis"):
         data (torch.Tensor): The data to visualize, reshaped to `img_size`.
         img_size (tuple): The shape of the data to reshape into (height, width).
         title (str): Title for the heatmap.
+        filename (str): Desired filename for the saved heatmap.
         cmap (str): Color map to use for the heatmap.
     """
+    # Reshape the data to the specified image size
     matrix = data.detach().numpy().mean(axis=0).reshape(img_size[1], img_size[2])
+
+    # Create the plot
     plt.figure(figsize=(8, 6))
     sns.heatmap(matrix, cmap=cmap, cbar=True)
     plt.title(title)
-    # plt.xlabel("Width")
-    # plt.ylabel("Height")
 
     # Define the save path for the heatmap
     top_level_dir = os.path.dirname(os.getcwd())  # Go one level up
     figs_dir = os.path.join(top_level_dir, "figs")  # Path to `figs` directory
     os.makedirs(figs_dir, exist_ok=True)  # Ensure `figs` directory exists
 
-    # Save the figure in the `figs` directory
-    save_path = os.path.join(figs_dir, f"{title.replace(' ', '_').lower()}.png")
+    # Save the figure in the `figs` directory with the specified filename
+    save_path = os.path.join(figs_dir, filename)
     plt.savefig(save_path, dpi=900, bbox_inches='tight')  # Save with high resolution
     plt.close()  # Close the figure to free memory
 
     print(f"Heatmap saved to: {save_path}")
+
 
 def TrainBubbleSVM(useGrayscale):
     # Hyperparameters
@@ -80,6 +83,25 @@ def TrainBubbleSVM(useGrayscale):
     # Initialize model and train
     model = pseudoSVM(xtrain.size()[1], 1)
     model.TrainModel(xtrain, ytrain, xtest, ytest)
+
+     # Compute gradients
+    xtrain.requires_grad = True
+    outputs = model(xtrain)
+    loss = torch.mean((outputs - ytrain.float()) ** 2)  # Mean squared error loss
+    loss.backward()
+
+    gradients = xtrain.grad  # Get gradients
+    zero_gradients = gradients == 0  # Identify zero gradients
+
+    # Create heatmaps
+    gradients_heatmap(
+        data=gradients, 
+        img_size=(1, 40, 50), 
+        title="Gradient Heatmap for BubblesSVM", 
+        filename="bubblesSVM_gradient_heatmap.png", 
+        cmap="viridis"
+    )
+
     # Save trained SVM
     saveTag = 'SVM-B'
     saveDir = (saveDirGrayscale if useGrayscale else saveDirRGB)
@@ -116,8 +138,8 @@ def TrainCombinedSVM(useGrayscale):
     gradients_heatmap(
         data=gradients, 
         img_size=(1, 40, 50), 
-        title="Gradient Heatmap", 
-        # save_path="./heatmaps/gradient_heatmap.png", 
+        title="Gradient Heatmap for CombinedSVM", 
+        filename="combinedSVM_gradient_heatmap.png", 
         cmap="viridis"
     )
     # Save trained SVM
@@ -149,7 +171,7 @@ class pseudoSVM(torch.nn.Module):
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
 
 # to train Bubble SVM, uncomment this line:
-# TrainBubbleSVM(useGrayscale=True)
+TrainBubbleSVM(useGrayscale=True)
 
 # to train Combined SVM, uncomment this line:
 TrainCombinedSVM(useGrayscale=True)
