@@ -6,3 +6,4 @@ Trained_Grayscale_VoterLab_Models/*
 Trained_RGB_VoterLab_Models/*
 Utilities/__pycache__/*
 Utilities/data/*
+src/__pycache__/*
