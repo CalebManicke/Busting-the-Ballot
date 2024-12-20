@@ -65,6 +65,32 @@ def gradients_heatmap(data, img_size, title, filename, cmap="viridis"):
 
     print(f"Heatmap saved to: {save_path}")
 
+def save_gradients_to_file(data, filename="gradients.txt"):
+    """
+    Save the gradient data to a text file.
+
+    Args:
+        data (torch.Tensor): The gradient data to save.
+        filename (str): Name of the file to save the data in.
+    """
+    # Convert the gradient data to a NumPy array for easier saving
+    gradient_data = data.detach().numpy()
+    
+    # Define the save path for the text file
+    top_level_dir = os.path.dirname(os.getcwd())  # Go one level up
+    output_dir = os.path.join(top_level_dir, "output")  # Create an `output` directory
+    os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
+    
+    file_path = os.path.join(output_dir, filename)
+    
+    # Save the gradients to the file
+    with open(file_path, "w") as file:
+        for row in gradient_data:
+            file.write(" ".join(map(str, row)) + "\n")
+    
+    print(f"Gradients saved to: {file_path}")
+
+
 
 def TrainBubbleSVM(useGrayscale):
     # Hyperparameters
@@ -134,6 +160,8 @@ def TrainCombinedSVM(useGrayscale):
     gradients = xtrain.grad  # Get gradients
     zero_gradients = gradients == 0  # Identify zero gradients
 
+    # save_gradients_to_file(gradients, filename="combined_gradients.txt")
+
     # Create heatmaps
     gradients_heatmap(
         data=gradients, 
@@ -167,6 +195,7 @@ class pseudoSVM(torch.nn.Module):
         with torch.no_grad():
             self.layer.weight = torch.nn.Parameter(torch.tensor(clf.coef_).float())
             self.layer.bias = torch.nn.Parameter(torch.tensor(clf.intercept_).float())
+            print(f"The bias is: {self.layer.bias}")
 
 # NOTE: Place Train + Bubble/Combined + Model Name function here!
 
