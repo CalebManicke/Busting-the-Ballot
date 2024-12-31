@@ -1797,3 +1797,37 @@ def LoadData(balanced = True):
 
 #     file = "/Users/aayushi.verma/Documents/GitHub/Busting-The-Ballot/data/data_Blank_Vote_Questionable.h5"
 #     SetUpDataset(file)
+
+
+
+
+
+
+
+
+
+def save_gradients_to_file(data, filename="gradients.txt"):
+    """
+    Save the gradient data to a text file.
+
+    Args:
+        data (torch.Tensor): The gradient data to save.
+        filename (str): Name of the file to save the data in.
+    """
+    # Convert the gradient data to a NumPy array for easier saving
+    gradient_data = data.detach().numpy()
+    
+    # Define the save path for the text file
+    top_level_dir = os.path.dirname(os.getcwd())  # Go one level up
+    output_dir = os.path.join(top_level_dir, "output")  # Create an `output` directory
+    os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
+    
+    file_path = os.path.join(output_dir, filename)
+    
+    # Save the gradients to the file
+    with open(file_path, "w") as file:
+        for row in gradient_data:
+            file.write(" ".join(map(str, row)) + "\n")
+    
+    print(f"Gradients saved to: {file_path}")
+
