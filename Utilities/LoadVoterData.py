@@ -50,11 +50,6 @@ def LoadColorData(file):
                     img = image_data[0][x][y][k]
                     img = img[:,:,::-1]
 
-#                     if(within_var(img)):
-#                         continue
-
-                    #img = img[10:30,15:35,:]
-
                     small_x.append(inf_color_model[0][x][y][0][k])
                     small_x.append(inf_color_model[0][x][y][1][k])
                     small_x.append(inf_color_model[0][x][y][2][k])
@@ -416,7 +411,7 @@ def LoadRawDataBalanced(file):
 #Loads all the data stored in the "position data" part of the .h5 file, and saves the raw images in data/VoterData.torch.
 #Data is stored in a dictionary as follows: {"train": {"x": xtrain, "y": ytrain}, "test": {"x": xtest, "y": ytest}}
 #Data is split classwise 80/20 train.test. Classwise meaning the training set has 80% of all the "filled" and 80% of all the "empty" inputs.
-def SetUpDataset(file, balanced = True, trainFraction=.8,outputName="data/VoterData"):
+def SetUpDataset(file, balanced = True, trainFraction=.8, outputName="data/VoterData"):
 
     if not os.path.isfile(file):
         print ('Downloading Datafile')
@@ -473,11 +468,15 @@ def LoadData(balanced = True):
 
 
 if __name__ == "__main__":
-
-    #Data is stored in the /data folder
+    # Data is stored in the /data folder
     if not os.path.isdir("data"):
         os.mkdir("data")
 
     file = None
+    # creating Combined dataset (blank, filled, and swatches)
     SetUpDataset(file, balanced=False, outputName="data/VoterDataCombined")
-    SetUpBubblesDataset(file,outputName="data/VoterDataBubbles")
+    # creating Bubbles dataset (blank, filled)
+    SetUpBubblesDataset(file, outputName="data/VoterDataBubbles")
+
+    # to load the .pth files created from the above, you can do:
+    # dataset = torch.load("filename.pth", weights_only=False)
