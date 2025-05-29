@@ -318,7 +318,7 @@ def NoBubbles(file):
  
 #Returns dataset with only bubbles (filled and unfilled)
 #You can filter by class using the label vector
-def OnlyBubbles(file):
+def OnlyBubbles(file, trainFraction=.8):
     batches = [39, 40, 41, 42, 43, 44, 45, 55, 82, 85, 91, 92, 93, 94, 95, 97, 101, 102, 104, 105]
     batches = np.arange((108))
     inf_color_model =  [ [ [   [   [] for k in range(3) ] for x in range(108) ] for i in range(3)] for y in range(2)   ]
@@ -355,7 +355,7 @@ def OnlyBubbles(file):
                 total = len(inf_color_model[1][x][y][0])
                 for k in range(total):
                     img = image_data[1][x][y][k]
-                    if k <= total*.8:
+                    if k <= total*trainFraction:
                         trainx[pos] = torch.tensor(img).permute(2, 0, 1)
                         trainy[pos] = x
                         pos += 1
@@ -416,7 +416,7 @@ def LoadRawDataBalanced(file):
 #Loads all the data stored in the "position data" part of the .h5 file, and saves the raw images in data/VoterData.torch.
 #Data is stored in a dictionary as follows: {"train": {"x": xtrain, "y": ytrain}, "test": {"x": xtest, "y": ytest}}
 #Data is split classwise 80/20 train.test. Classwise meaning the training set has 80% of all the "filled" and 80% of all the "empty" inputs.
-def SetUpDataset(file, balanced = True):
+def SetUpDataset(file, balanced = True, trainFraction=.8,outputName="data/VoterData"):
 
     if not os.path.isfile(file):
         print ('Downloading Datafile')
@@ -426,7 +426,7 @@ def SetUpDataset(file, balanced = True):
     if not balanced:
         x,y = LoadRawData(file)
 
-        i = GetClasswiseBalanced(y, .2, 2)
+        i = GetClasswiseBalanced(y, 1-trainFraction, 2)
         ni = (1-i.int()).bool()
 
         xtrain = x[ni]
@@ -434,17 +434,29 @@ def SetUpDataset(file, balanced = True):
 
         xtest = x[i]
         ytest = y[i]
-        name = "data/VoterData.torch"
+        name = outputName+".torch"
     else:
         xtrain,ytrain,xtest,ytest = LoadRawDataBalanced(file)
-        name = "data/VoterDataBalanced.torch"
+        name = outputName+"Balanced"+".torch"
 
     print(xtrain.size(), xtest.size())
     print(ytrain.size(), ytest.size())
 
     torch.save({"train": {"x": xtrain, "y": ytrain}, "test": {"x": xtest, "y": ytest}}, name)
 
+def SetUpBubblesDataset(file, trainFraction=.8, outputName="data/VoterDataBubbles"):
+    if not os.path.isfile(file):
+        print ('Downloading Datafile')
+        progress = Progress()
+        urllib.request.urlretrieve(None, file, reporthook=progress.download_progress_hook)
 
+    xtrain, ytrain, xtest, ytest = OnlyBubbles(file, trainFraction=trainFraction)
+    name = outputName+".torch"
+    print(xtrain.size(), xtest.size())
+    print(ytrain.size(), ytest.size())
+
+    torch.save({"train": {"x": xtrain, "y": ytrain}, "test": {"x": xtest, "y": ytest}}, name)
+    
 def LoadData(balanced = True):
     if not balanced:
         name = None
@@ -467,4 +479,5 @@ if __name__ == "__main__":
         os.mkdir("data")
 
     file = None
-    SetUpDataset(file)
+    SetUpDataset(file, balanced=False, outputName="data/VoterDataCombined")
+    SetUpBubblesDataset(file,outputName="data/VoterDataBubbles")
